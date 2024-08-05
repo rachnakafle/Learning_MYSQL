@@ -39,8 +39,35 @@ FROM employee_demographics AS dem
 INNER JOIN employee_salary AS sal
 	ON dem.employee_id = sal.employee_id
 INNER JOIN parks_departments pd
-	ON sal.dept_id = pd.department_id 
-;
-
+	ON sal.dept_id = pd.department_id;
+    
 SELECT * 
 FROM parks_departments;
+
+-- UNIONS
+SELECT age, gender
+FROM employee_demographics
+UNION ALL
+SELECT first_name, last_name
+FROM employee_salary;
+
+SELECT first_name, last_name, 'Old' AS Label
+FROM employee_demographics
+WHERE age > 40 AND gender = 'Female'
+UNION
+SELECT first_name, last_name, 'Highly Paid Employee' AS Label
+FROM employee_salary
+WHERE salary > 70000;
+
+SELECT first_name, last_name, 'Old Man' AS Label
+FROM employee_demographics
+WHERE age > 40 AND gender = 'Male'
+UNION
+SELECT first_name, last_name, 'Old Lady' AS Label
+FROM employee_demographics
+WHERE age > 40 AND gender = 'Female'
+UNION
+SELECT first_name, last_name, 'Highly Paid Employee' AS Label
+FROM employee_salary
+WHERE salary > 70000
+ORDER BY first_name, last_name;
