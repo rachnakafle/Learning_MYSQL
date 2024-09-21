@@ -68,3 +68,18 @@ WHERE row_num > 1;
 SELECT * 
 FROM layoffs_staging4
 WHERE row_num > 1;
+
+SELECT * 
+FROM layoffs_staging4;
+
+-- Standardizing Data
+
+SELECT company, TRIM(company)
+FROM layoffs_staging4;
+
+UPDATE layoffs_staging4
+SET company = TRIM(company);
+
+SELECT DISTINCT industry
+FROM layoffs_staging4
+ORDER BY 1;
