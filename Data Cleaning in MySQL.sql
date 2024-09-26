@@ -4,12 +4,21 @@ SELECT *
 FROM layoffs;
 
 -- 1. Remove Duplicates
--- 2. Standardized the data
--- 3. Null Values or Blank Values
+-- 2. Standardized the data (CHECK SPELLINGS )
+-- 3. Null Values or Blank Values 
 -- 4. Remove Any Columns
+
+-- 1. Remove Duplicates
 
 CREATE TABLE layoffs_staging
 LIKE layoffs;
+
+SELECT *
+FROM layoffs_staging;
+
+INSERT layoffs_staging
+SELECT *
+FROM layoffs;
 
 SELECT *,
 ROW_NUMBER() OVER( 
@@ -26,7 +35,7 @@ FROM layoffs_staging
 
 DELETE 
 FROM duplicate_cte
-WHERE row_num > 1
+WHERE row_num > 1; 
 SELECT *
 FROM duplicate_cte
 WHERE row_num > 1;
@@ -34,10 +43,10 @@ WHERE row_num > 1;
 SELECT *
 FROM layoffs_staging
 WHERE company = 'Casper';
+
 -- INSERT layoffs_staging
 SELECT *
 FROM layoffs;
-
 
 CREATE TABLE `layoffs_staging2` (
   `company` text,
@@ -48,17 +57,14 @@ CREATE TABLE `layoffs_staging2` (
   `date` text,
   `stage` text,
   `country` text,
-  `funds_raised_millions` int DEFAULT NULL
+  `funds_raised_millions` int DEFAULT NULL,
+  `row_num` INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 
 SELECT *
 FROM layoffs_staging2;
 
-INSERT INTO layoffs_staging2
-SELECT *,
-ROW_NUMBER() OVER(
-PARTITION BY company, location, industry, total_laid_off, percentage_laid_off, `date`, stage, country, funds_raised_millions) AS row_num
-FROM layoffs_staging;
+
+
 
 
